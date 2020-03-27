@@ -61,7 +61,7 @@ function search_for_primes_iter(n, count) {
             : search_for_primes_iter(n+2, count);
 }
 
-search_for_primes(10000);  
+search_for_primes(1000000);  
 // " *** "
 // 4 1000003
 // " *** "
