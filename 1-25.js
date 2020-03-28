@@ -1,60 +1,69 @@
-// Re-write expmod() with fast-expt
+// Re-write expmod() with fast-expt and compare with expmod used in 1-24
+// We can print n everytime square(n) is called to compare computations
 
 function square(x) {
+    display(n);
     return x * x;
 }
                 
 function is_even(n) {
     return n % 2 === 0;
 }
-          
-function fast_expt(b, n) {
-    return n === 0
-           ? 1
-           : is_even(n)
-             ? square(fast_expt(b, n / 2))
-             : b * fast_expt(b, n - 1);
-}
-          
-function expmod(base, exp, m) {
+
+// expmod with fast_expt
+function expmod_with_fast_exp(base, exp, m) {
     return fast_expt(base, exp) % m;
 }
-          
-function random(n) {
-    return math_floor(math_random() * n);
-}
-          
-function fermat_test(n) {
-    function try_it(a) {
-        return expmod(a, n, n) === a;
-    }
-    return try_it(1 + random(n - 1));
-}
-          
-function fast_is_prime(n, times) {
-    return times === 0
-           ? true
-           : fermat_test(n)
-             ? fast_is_prime(n, times - 1)
-             : false;
+
+function fast_expt(b, n) {
+    return n === 0
+       ? 1
+       : is_even(n)
+         ? square(fast_expt(b, n / 2))
+         : b * fast_expt(b, n - 1);
 }
 
-function timed_prime_test(n) {
-    display(n);
-    return start_prime_test(n, runtime());
+// expmod from exercise 1-24
+function expmod(base, exp, m) {
+    return exp === 0
+       ? 1
+       : is_even(exp)
+         ? square(expmod(base, exp / 2, m)) % m
+         : (base * expmod(base, exp - 1, m)) % m;
 }
 
-function start_prime_test(n, start_time) {
-    return fast_is_prime(n, 3)
-           ? report_prime(runtime() - start_time)
-           : true;
-}
 
-function report_prime(elapsed_time) {
-    display(" *** ");
-    display(elapsed_time);
-}
+// expmod_with_fast_exp() works for small enough values ...
+expmod(4, 29, 29);
+// 4
+// 16
+// 256
+// 65536
+// 4294967296
+// -> 31
 
-timed_prime_test(22);
+// ... but not for bigger values:
+expmod(102, 1003, 1003)
+// 102
+// 1061208
+// 114868566764928
+// 1.3458683383241297e30
+// 1.847588815785421e62
+// 3.4135844322153745e124
+// 1.1885609849380425e251
+// Infinity
+// Infinity
+// -> NaN
 
-          
+// same test with expmod() (the one used in exercise 1-24):
+expmod(102, 1003, 1003)
+// 102
+// 34
+// 561
+// 527
+// 629
+// 459
+// 187
+// 867
+// 952
+// -> 510
