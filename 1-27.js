@@ -19,10 +19,6 @@ function expmod(base, exp, m) {
       : (base * expmod(base, exp - 1, m)) % m;
 }
 
-function random(n) {
-  return math_floor(math_random() * n);
-}
-
 function fermat_test(n, a) {
   return expmod(a, n, n) === a;
 }
