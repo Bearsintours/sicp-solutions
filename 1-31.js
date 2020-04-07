@@ -12,6 +12,5 @@ function product_iter(term, a, next, b) {
 
 // recursive process
 function product(term, a, next, b) {
-  display(a);
   return a > b ? 1 : term(a) * product(term, next(a), next, b);
 }
