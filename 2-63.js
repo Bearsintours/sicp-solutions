@@ -56,3 +56,6 @@ const tree = list(
 
 tree_to_list_1(tree);
 // [1, [3, [5, [7, [9, [11, null]]]]]]
+
+tree_to_list_2(tree);
+// [1, [3, [5, [7, [9, [11, null]]]]]]
