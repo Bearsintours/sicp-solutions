@@ -132,7 +132,20 @@ function install_polynomial_package() {
 
   // representation of terms and term lists
   function adjoin_term(term, term_list) {
-    return pair(coeff(term), term_list);
+    const exponent = order(term);
+    const list_exponent = length(term_list) - 1;
+    if(is_equal_to_zero(coeff(term))) {
+        return term_list;
+    }
+    else if(exponent === list_exponent){
+        return pair(coeff(term), tail(term_list));
+    }
+    else if(exponent > list_exponent) {
+        return adjoin_term(term, pair(make_javascript_number(0), term_list));
+    }
+    else {
+        return pair(head(term_list), adjoin_term(term, tail(term_list)));
+    }
   }
   const the_empty_termlist = null;
   function first_term(term_list) {
