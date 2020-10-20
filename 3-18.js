@@ -7,7 +7,7 @@ function make_cycle(x) {
   return x;
 }
 
-function is_cycle(x) {
+function has_cycle(x) {
   let visited = list();
   function check(x) {
     if (!is_pair(x)) {
@@ -23,5 +23,5 @@ function is_cycle(x) {
 }
 
 const z = make_cycle(list("a", "b", "c"));
-is_cycle(z);
+has_cycle(z);
 // true
