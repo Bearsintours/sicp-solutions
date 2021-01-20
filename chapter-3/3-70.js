@@ -18,6 +18,12 @@ function weighted_merge(s1, s2, w) {
     const s2head = head(s2);
     return w(s1head) <= w(s2head)
       ? pair(s1head, () => weighted_merge(stream_tail(s1), s2, w))
-      : pair(s2head, () => merge(s1, stream_tail(s2), w));
+      : pair(s2head, () => weighted_merge(s1, stream_tail(s2), w));
   }
 }
+
+function integers_by_sum() {
+  const weight = (pair) => head(pair) + head(stream_tail(pair));
+  return weighted_pairs(integers, integers, weight);
+}
+
